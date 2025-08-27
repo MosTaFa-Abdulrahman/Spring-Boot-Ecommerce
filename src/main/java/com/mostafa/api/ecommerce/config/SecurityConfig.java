@@ -21,7 +21,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -47,8 +46,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(
-                            "/api/auth/register",
-                            "/api/auth/login").permitAll()
+                                    "/api/auth/register",
+                                    "/api/auth/login").permitAll()
                             // Swagger/OpenAPI endpoints
                             .requestMatchers(
                                     "/swagger-ui/**",
@@ -67,7 +66,7 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN")
                             .requestMatchers(HttpMethod.GET, "/api/users/{userId}").hasAnyRole("ADMIN", "USER")
                             // ((Categories)) //
-                            .requestMatchers(HttpMethod.POST, "/api/categories").permitAll()
+                            .requestMatchers(HttpMethod.POST, "/api/categories").authenticated()
                             .requestMatchers(HttpMethod.PUT, "/api/categories/{categoryId}").hasRole("ADMIN")
                             .requestMatchers(HttpMethod.DELETE, "/api/categories/{categoryId}").hasRole("ADMIN")
                             .requestMatchers(HttpMethod.GET, "/api/categories").hasAnyRole("USER", "ADMIN")
